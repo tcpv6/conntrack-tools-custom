@@ -171,8 +171,16 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LIBMNL_CFLAGS = @LIBMNL_CFLAGS@
+LIBMNL_LIBS = @LIBMNL_LIBS@
 LIBNETFILTER_CONNTRACK_CFLAGS = @LIBNETFILTER_CONNTRACK_CFLAGS@
 LIBNETFILTER_CONNTRACK_LIBS = @LIBNETFILTER_CONNTRACK_LIBS@
+LIBNETFILTER_CTHELPER_CFLAGS = @LIBNETFILTER_CTHELPER_CFLAGS@
+LIBNETFILTER_CTHELPER_LIBS = @LIBNETFILTER_CTHELPER_LIBS@
+LIBNETFILTER_CTTIMEOUT_CFLAGS = @LIBNETFILTER_CTTIMEOUT_CFLAGS@
+LIBNETFILTER_CTTIMEOUT_LIBS = @LIBNETFILTER_CTTIMEOUT_LIBS@
+LIBNETFILTER_QUEUE_CFLAGS = @LIBNETFILTER_QUEUE_CFLAGS@
+LIBNETFILTER_QUEUE_LIBS = @LIBNETFILTER_QUEUE_LIBS@
 LIBNFNETLINK_CFLAGS = @LIBNFNETLINK_CFLAGS@
 LIBNFNETLINK_LIBS = @LIBNFNETLINK_LIBS@
 LIBOBJS = @LIBOBJS@
@@ -241,6 +249,7 @@ includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
+libdl_LIBS = @libdl_LIBS@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
@@ -262,12 +271,15 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -std=gnu99 -W -Wall \
-	-Wmissing-prototypes -Wwrite-strings -Wcast-qual -Wfloat-equal -Wshadow -Wpointer-arith -Wbad-function-cast -Wsign-compare -Waggregate-return -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wstrict-prototypes -Wundef \
-	-Wno-unused-parameter ${LIBNFNETLINK_CFLAGS} \
-	${LIBNETFILTER_CONNTRACK_CFLAGS}
+	-Wmissing-prototypes -Wwrite-strings -Wfloat-equal -Wshadow -Wpointer-arith -Wbad-function-cast -Wsign-compare -Waggregate-return -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wstrict-prototypes -Wundef \
+	-Wno-unused-parameter ${LIBNFNETLINK_CFLAGS} ${LIBMNL_CFLAGS} \
+	${LIBNETFILTER_CONNTRACK_CFLAGS} \
+	${LIBNETFILTER_CTTIMEOUT_CFLAGS} \
+	${LIBNETFILTER_QUEUE_CFLAGS} \
+	${LIBNETFILTER_CTHELPER_CFLAGS}
 
 ACLOCAL_AMFLAGS = -I m4
-man_MANS = conntrack.8 conntrackd.8
+man_MANS = conntrack.8 conntrackd.8 nfct.8
 EXTRA_DIST = $(man_MANS) Make_global.am doc m4
 SUBDIRS = extensions src
 DIST_SUBDIRS = include src extensions
@@ -626,7 +638,7 @@ distcheck: dist
 	*.zip*) \
 	  unzip $(distdir).zip ;;\
 	esac
-	chmod -R a-w $(distdir); chmod a+w $(distdir)
+	chmod -R a-w $(distdir); chmod u+w $(distdir)
 	mkdir $(distdir)/_build
 	mkdir $(distdir)/_inst
 	chmod a-w $(distdir)
@@ -808,7 +820,8 @@ uninstall-man: uninstall-man8
 
 
 dist-hook:
-	rm -rf `find $(distdir)/doc -name .svn`
+	rm -rf `find $(distdir)/doc -name *.orig`
+	rm -rf `find $(distdir)/doc -name *.rej`
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

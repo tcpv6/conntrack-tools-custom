@@ -156,8 +156,16 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LIBMNL_CFLAGS = @LIBMNL_CFLAGS@
+LIBMNL_LIBS = @LIBMNL_LIBS@
 LIBNETFILTER_CONNTRACK_CFLAGS = @LIBNETFILTER_CONNTRACK_CFLAGS@
 LIBNETFILTER_CONNTRACK_LIBS = @LIBNETFILTER_CONNTRACK_LIBS@
+LIBNETFILTER_CTHELPER_CFLAGS = @LIBNETFILTER_CTHELPER_CFLAGS@
+LIBNETFILTER_CTHELPER_LIBS = @LIBNETFILTER_CTHELPER_LIBS@
+LIBNETFILTER_CTTIMEOUT_CFLAGS = @LIBNETFILTER_CTTIMEOUT_CFLAGS@
+LIBNETFILTER_CTTIMEOUT_LIBS = @LIBNETFILTER_CTTIMEOUT_LIBS@
+LIBNETFILTER_QUEUE_CFLAGS = @LIBNETFILTER_QUEUE_CFLAGS@
+LIBNETFILTER_QUEUE_LIBS = @LIBNETFILTER_QUEUE_LIBS@
 LIBNFNETLINK_CFLAGS = @LIBNFNETLINK_CFLAGS@
 LIBNFNETLINK_LIBS = @LIBNFNETLINK_LIBS@
 LIBOBJS = @LIBOBJS@
@@ -226,6 +234,7 @@ includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
+libdl_LIBS = @libdl_LIBS@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
@@ -247,9 +256,12 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -std=gnu99 -W -Wall \
-	-Wmissing-prototypes -Wwrite-strings -Wcast-qual -Wfloat-equal -Wshadow -Wpointer-arith -Wbad-function-cast -Wsign-compare -Waggregate-return -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wstrict-prototypes -Wundef \
-	-Wno-unused-parameter ${LIBNFNETLINK_CFLAGS} \
-	${LIBNETFILTER_CONNTRACK_CFLAGS}
+	-Wmissing-prototypes -Wwrite-strings -Wfloat-equal -Wshadow -Wpointer-arith -Wbad-function-cast -Wsign-compare -Waggregate-return -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wstrict-prototypes -Wundef \
+	-Wno-unused-parameter ${LIBNFNETLINK_CFLAGS} ${LIBMNL_CFLAGS} \
+	${LIBNETFILTER_CONNTRACK_CFLAGS} \
+	${LIBNETFILTER_CTTIMEOUT_CFLAGS} \
+	${LIBNETFILTER_QUEUE_CFLAGS} \
+	${LIBNETFILTER_CTHELPER_CFLAGS}
 
 noinst_LTLIBRARIES = libct_proto_tcp.la libct_proto_udp.la \
 		     libct_proto_icmp.la libct_proto_icmpv6.la \
