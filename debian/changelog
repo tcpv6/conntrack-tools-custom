@@ -1,3 +1,10 @@
+conntrack (1:1.4.3-1+vyos2+lithium13+mintel1) unstable; urgency=low
+
+  [ Jason Hendry ]
+  * Updating conntrackd
+
+ -- Jason Hendry <jhendry@mintel.com>  Wed, 9 Nov 2016 10:10:00 +0000
+
 conntrack (1:1.4.3-1+vyos2+lithium13) unstable; urgency=low
 
   [ Alex Harpin ]
